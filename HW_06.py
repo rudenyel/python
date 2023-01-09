@@ -1,5 +1,5 @@
 def get_even_or_odd_numbers(stop, only_even):
-    return [number for number in range(stop) if number % 2 != only_even]
+    return [number for number in range(stop) if number % 2 != int(only_even)]
 
 
 def search_words(phrase, words):
@@ -7,7 +7,7 @@ def search_words(phrase, words):
 
 
 def flatten(sequence):
-    yield from [item for subsequence in sequence for item in subsequence]
+    yield from (item for subsequence in sequence for item in subsequence)
 
 
 print(get_even_or_odd_numbers(10, True))
