@@ -18,3 +18,4 @@ generator = flatten([[1, 2], [], [3, 4, 5]])
 print(next(generator))
 print(next(generator))
 print(next(generator))
+
