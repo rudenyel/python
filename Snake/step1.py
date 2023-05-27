@@ -15,6 +15,7 @@ SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 BLACK = pygame.Color(0, 0, 0)
 WHITE = pygame.Color(255, 255, 255)
 GREEN = pygame.Color(0, 255, 0)
+CORAL = pygame.Color(255, 127, 80)
 
 
 def show_message(color, font, size, message):
@@ -100,8 +101,8 @@ if __name__ == '__main__':
 
         SCREEN.fill(BLACK)
         for part in body:
-            pygame.draw.rect(SCREEN, GREEN, pygame.Rect(part[0], part[1], scale_x(1), scale_y(1))) # noqa
-        pygame.draw.rect(SCREEN, WHITE, pygame.Rect(fruit[0], fruit[1], scale_x(1), scale_y(1))) # noqa
+            pygame.draw.rect(SCREEN, CORAL, pygame.Rect(part[0], part[1], scale_x(1), scale_y(1))) # noqa
+        pygame.draw.rect(SCREEN, GREEN, pygame.Rect(fruit[0], fruit[1], scale_x(1), scale_y(1))) # noqa
 
         if head[0] < 0 or head[0] >= WIDTH:
             game_over = True
