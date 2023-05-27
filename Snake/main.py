@@ -150,7 +150,7 @@ if __name__ == '__main__':
             body[-1].kill()
             body.pop()
 
-        if pygame.sprite.groupcollide(head_group, body_group, True, True):  # noqa
+        if pygame.sprite.groupcollide(head_group, body_group, False, False):  # noqa
             game_over = True
 
         if head.direction == Run.out:
