@@ -4,7 +4,7 @@ import random
 import pygame
 
 
-FPS = 10
+FPS = 5
 STEP = 10
 WIDTH = 720
 HEIGHT = 480
@@ -110,7 +110,6 @@ if __name__ == '__main__':
 
     body = list()
     body_group = pygame.sprite.Group()
-    body.append(Artefact(head.color, head.rect.x, head.rect.y, body_group))
     body.append(Artefact(head.color, head.rect.x - STEP, head.rect.y, body_group)) # noqa
     body.append(Artefact(head.color, head.rect.x - STEP * 2, head.rect.y, body_group)) # noqa
     body.append(Artefact(head.color, head.rect.x - STEP * 3, head.rect.y, body_group)) # noqa
@@ -140,15 +139,19 @@ if __name__ == '__main__':
                     head.direction = Run.left
                 if event.key == pygame.K_RIGHT:
                     head.direction = Run.right
-        all_sprites.update()
 
         body.insert(0, Artefact(head.color, head.rect.x, head.rect.y, all_sprites, body_group))
+        all_sprites.update()
+
         if pygame.sprite.groupcollide(head_group, fruits_group, False, True): # noqa
             score += 1
             FPS += 1
         else:
             body[-1].kill()
             body.pop()
+
+        if pygame.sprite.groupcollide(head_group, body_group, True, True):  # noqa
+            game_over = True
 
         if head.direction == Run.out:
             game_over = True
