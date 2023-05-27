@@ -1,9 +1,13 @@
 import pygame
 
+SCALE = 10
+def scale_x(value): return value * SCALE
+def scale_y(value): return value * SCALE
+
+
 FPS = 15
-STEP = 10
-WIDTH = 72 * STEP
-HEIGHT = 48 * STEP
+WIDTH = scale_x(72)
+HEIGHT = scale_y(48)
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 BLACK = pygame.Color(0, 0, 0)
@@ -22,5 +26,8 @@ if __name__ == '__main__':
             if event.type == pygame.QUIT:
                 running = False
         SCREEN.fill(BLACK)
-        pygame.draw.rect(SCREEN, WHITE, pygame.Rect(100, 50, STEP, STEP))
+        pygame.draw.rect(
+            SCREEN,
+            WHITE,
+            pygame.Rect(scale_x(10),scale_y(5), scale_x(1), scale_y(1))) # noqa
         pygame.display.flip()

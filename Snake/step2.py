@@ -3,12 +3,17 @@ import time
 import random
 import pygame
 
+SCALE = 10
+def scale_x(value): return value * SCALE
+def scale_y(value): return value * SCALE
+
 
 FPS = 10
-STEP = 10
-WIDTH = 72 * STEP
-HEIGHT = 48 * STEP
+WIDTH = scale_x(72)
+HEIGHT = scale_y(48)
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+
+FRUITS = 20
 
 BLACK = pygame.Color(0, 0, 0)
 WHITE = pygame.Color(255, 255, 255)
@@ -23,7 +28,7 @@ class Artefact(pygame.sprite.Sprite):
     def __init__(self, color, rect_x, rect_y, *groups):
         pygame.sprite.Sprite.__init__(self, *groups)
         self.color = color
-        self.image = pygame.Surface((STEP, STEP))
+        self.image = pygame.Surface((scale_x(1), scale_y(1)))
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.x = rect_x
@@ -72,14 +77,14 @@ class Hero(Artefact, Motion):
 
     def update(self):
         if self._direction == Run.up:
-            self.rect.y -= STEP
+            self.rect.y -= scale_y(1)
         if self._direction == Run.down:
-            self.rect.y += STEP
+            self.rect.y += scale_y(1)
         if self._direction == Run.left:
-            self.rect.x -= STEP
+            self.rect.x -= scale_x(1)
         if self._direction == Run.right:
-            self.rect.x += STEP
-        if self.rect.x <= 0 or self.rect.y <= 0:
+            self.rect.x += scale_x(1)
+        if self.rect.x < 0 or self.rect.y < 0:
             self.direction = Run.out
         if self.rect.x >= WIDTH:
             self.direction = Run.out
@@ -99,17 +104,17 @@ if __name__ == '__main__':
     score = 0
 
     fruits_group = pygame.sprite.Group()
-    for _ in range(10):
-        random_x = random.randrange(1, (WIDTH // STEP)) * STEP
-        random_y = random.randrange(1, (HEIGHT // STEP)) * STEP
+    for _ in range(FRUITS):
+        random_x = random.randrange(1, (WIDTH // scale_x(1))) * scale_x(1) # noqa
+        random_y = random.randrange(1, (HEIGHT // scale_y(1))) * scale_y(1) # noqa
         Artefact(GREEN, random_x, random_y, fruits_group)
 
-    snake_group = pygame.sprite.Group()
-    head = Hero(CORAL, 100, 50, snake_group)
+    head_group = pygame.sprite.Group()
+    head = Hero(CORAL, scale_x(10), scale_y(5), head_group)
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(fruits_group)
-    all_sprites.add(snake_group)
+    all_sprites.add(head_group)
 
     pygame.init()
     pygame.display.set_caption('Snake')
@@ -133,7 +138,7 @@ if __name__ == '__main__':
                     head.direction = Run.right
         all_sprites.update()
 
-        if pygame.sprite.groupcollide(snake_group, fruits_group, False, True):
+        if pygame.sprite.groupcollide(head_group, fruits_group, False, True):
             score += 1
 
         if head.direction == Run.out:
@@ -141,10 +146,13 @@ if __name__ == '__main__':
 
         SCREEN.fill(BLACK)
         all_sprites.draw(SCREEN)
+
         if game_over:
             show_message(WHITE, 'arial', 18, f'Game over! Your score {score}')
-            pygame.display.flip()
-            time.sleep(5)
         else:
             show_message(WHITE, 'arial', 18, f'Score {score}')
-            pygame.display.flip()
+
+        pygame.display.flip()
+
+        if game_over:
+            time.sleep(5)
