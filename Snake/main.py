@@ -20,6 +20,18 @@ GREEN = pygame.Color(0, 255, 0)
 CORAL = pygame.Color(255, 127, 80)
 
 
+class Artefact(pygame.sprite.Sprite):
+
+    def __init__(self, color, rect_x, rect_y, *groups):
+        pygame.sprite.Sprite.__init__(self, *groups)
+        self.color = color
+        self.image = pygame.Surface((scale(1), scale(1)))
+        self.image.fill(color)
+        self.rect = self.image.get_rect()
+        self.rect.x = rect_x
+        self.rect.y = rect_y
+
+
 @enum.unique
 class Run(enum.Enum):
     standup = 0
@@ -52,18 +64,6 @@ class Motion(object):
             self._direction = Run.standup
         if value == Run.out:
             self._direction = Run.out
-
-
-class Artefact(pygame.sprite.Sprite):
-
-    def __init__(self, color, rect_x, rect_y, *groups):
-        pygame.sprite.Sprite.__init__(self, *groups)
-        self.color = color
-        self.image = pygame.Surface((scale(1), scale(1)))
-        self.image.fill(color)
-        self.rect = self.image.get_rect()
-        self.rect.x = rect_x
-        self.rect.y = rect_y
 
 
 class Hero(Artefact, Motion):
