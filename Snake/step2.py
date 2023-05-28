@@ -3,14 +3,13 @@ import time
 import random
 import pygame
 
-SCALE = 10
-def scale_x(value): return value * SCALE
-def scale_y(value): return value * SCALE
+
+def scale(position): return position * 10
 
 
 FPS = 10
-WIDTH = scale_x(72)
-HEIGHT = scale_y(48)
+WIDTH = scale(72)
+HEIGHT = scale(48)
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 FRUITS = 20
@@ -26,7 +25,7 @@ class Artefact(pygame.sprite.Sprite):
     def __init__(self, color, rect_x, rect_y, *groups):
         pygame.sprite.Sprite.__init__(self, *groups)
         self.color = color
-        self.image = pygame.Surface((scale_x(1), scale_y(1)))
+        self.image = pygame.Surface((scale(1), scale(1)))
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.x = rect_x
@@ -75,13 +74,13 @@ class Hero(Artefact, Motion):
 
     def update(self):
         if self._direction == Run.up:
-            self.rect.y -= scale_y(1)
+            self.rect.y -= scale(1)
         if self._direction == Run.down:
-            self.rect.y += scale_y(1)
+            self.rect.y += scale(1)
         if self._direction == Run.left:
-            self.rect.x -= scale_x(1)
+            self.rect.x -= scale(1)
         if self._direction == Run.right:
-            self.rect.x += scale_x(1)
+            self.rect.x += scale(1)
         if self.rect.x < 0 or self.rect.y < 0:
             self.direction = Run.out
         if self.rect.x >= WIDTH:
@@ -103,12 +102,12 @@ if __name__ == '__main__':
 
     fruits_group = pygame.sprite.Group()
     for _ in range(FRUITS):
-        random_x = random.randrange(1, (WIDTH // scale_x(1))) * scale_x(1) # noqa
-        random_y = random.randrange(1, (HEIGHT // scale_y(1))) * scale_y(1) # noqa
+        random_x = random.randrange(1, (WIDTH // scale(1))) * scale(1) # noqa
+        random_y = random.randrange(1, (HEIGHT // scale(1))) * scale(1) # noqa
         Artefact(GREEN, random_x, random_y, fruits_group)
 
     head_group = pygame.sprite.Group()
-    head = Hero(CORAL, scale_x(10), scale_y(5), head_group)
+    head = Hero(CORAL, scale(10), scale(5), head_group)
 
     all_sprites = pygame.sprite.Group()
     all_sprites.add(fruits_group)

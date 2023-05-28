@@ -1,13 +1,12 @@
 import pygame
 
-SCALE = 10
-def scale_x(value): return value * SCALE
-def scale_y(value): return value * SCALE
+
+def scale(position): return position * 10
 
 
 FPS = 15
-WIDTH = scale_x(72)
-HEIGHT = scale_y(48)
+WIDTH = scale(72)
+HEIGHT = scale(48)
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 BLACK = pygame.Color(0, 0, 0)
@@ -29,5 +28,5 @@ if __name__ == '__main__':
         pygame.draw.rect(
             SCREEN,
             WHITE,
-            pygame.Rect(scale_x(10),scale_y(5), scale_x(1), scale_y(1))) # noqa
+            pygame.Rect(scale(10),scale(5), scale(1), scale(1))) # noqa
         pygame.display.flip()

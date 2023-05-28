@@ -2,14 +2,13 @@ import pygame
 import time
 import random
 
-SCALE = 10
-def scale_x(value): return value * SCALE
-def scale_y(value): return value * SCALE
+
+def scale(position): return position * 10
 
 
 FPS = 15
-WIDTH = scale_x(72)
-HEIGHT = scale_y(48)
+WIDTH = scale(72)
+HEIGHT = scale(48)
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 BLACK = pygame.Color(0, 0, 0)
@@ -30,19 +29,18 @@ if __name__ == '__main__':
     score = 0
 
     fruit = [
-        random.randrange(1, (WIDTH // scale_x(1))) * scale_x(1),
-        random.randrange(1, (HEIGHT // scale_y(1))) * scale_y(1)
+        random.randrange(1, (WIDTH // scale(1))) * scale(1),
+        random.randrange(1, (HEIGHT // scale(1))) * scale(1)
     ]
     fruit_spawn = True
 
     direction = 'RIGHT'
     change_to = direction
-    head = [scale_x(10), scale_y(5)]
+    head = [scale(10), scale(5)]
     body = [
-        [scale_x(10), scale_y(5)],
-        [scale_x(9), scale_y(5)],
-        [scale_x(8), scale_y(5)],
-        [scale_x(7), scale_y(5)]
+        [scale(9), scale(5)],
+        [scale(8), scale(5)],
+        [scale(7), scale(5)],
     ]
 
     pygame.init()
@@ -77,13 +75,13 @@ if __name__ == '__main__':
 
         body.insert(0, list(head))
         if direction == 'UP':
-            head[1] -= scale_y(1)
+            head[1] -= scale(1)
         if direction == 'DOWN':
-            head[1] += scale_y(1)
+            head[1] += scale(1)
         if direction == 'LEFT':
-            head[0] -= scale_x(1)
+            head[0] -= scale(1)
         if direction == 'RIGHT':
-            head[0] += scale_x(1)
+            head[0] += scale(1)
 
         if head[0] == fruit[0] and head[1] == fruit[1]:
             score += 1
@@ -94,15 +92,15 @@ if __name__ == '__main__':
 
         if not fruit_spawn:
             fruit = [
-                random.randrange(1, (WIDTH // scale_x(1))) * scale_x(1), # noqa
-                random.randrange(1, (HEIGHT // scale_y(1))) * scale_y(1) # noqa
+                random.randrange(1, (WIDTH // scale(1))) * scale(1), # noqa
+                random.randrange(1, (HEIGHT // scale(1))) * scale(1) # noqa
             ]
         fruit_spawn = True
 
         SCREEN.fill(BLACK)
         for part in body:
-            pygame.draw.rect(SCREEN, CORAL, pygame.Rect(part[0], part[1], scale_x(1), scale_y(1))) # noqa
-        pygame.draw.rect(SCREEN, GREEN, pygame.Rect(fruit[0], fruit[1], scale_x(1), scale_y(1))) # noqa
+            pygame.draw.rect(SCREEN, CORAL, pygame.Rect(part[0], part[1], scale(1), scale(1))) # noqa
+        pygame.draw.rect(SCREEN, GREEN, pygame.Rect(fruit[0], fruit[1], scale(1), scale(1))) # noqa
 
         if head[0] < 0 or head[0] >= WIDTH:
             game_over = True
